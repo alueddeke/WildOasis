@@ -11,6 +11,7 @@ exports.up = function (knex) {
     table.string("nationality").notNullable();
     table.string("country").notNullable();
     table.timestamp("created_at").defaultTo(knex.fn.now());
+    table.integer("guestID").unsigned();
   });
 };
 
@@ -18,4 +19,6 @@ exports.up = function (knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function (knex) {};
+exports.down = function (knex) {
+  return knex.schema.dropTable("guests");
+};
