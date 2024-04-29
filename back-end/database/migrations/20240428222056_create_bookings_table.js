@@ -24,13 +24,15 @@ exports.up = function (knex) {
       .unsigned()
       .references("id")
       .inTable("cabins")
-      .onDelete("CASCADE");
+      .onDelete("CASCADE")
+      .withKeyName("fk_bookings_cabin"); // Custom foreign key constraint name
     table
       .integer("guestID")
       .unsigned()
       .references("id")
       .inTable("guests")
-      .onDelete("CASCADE");
+      .onDelete("CASCADE")
+      .withKeyName("fk_bookings_guest"); // Custom foreign key constraint name
   });
 };
 
@@ -39,5 +41,14 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable("bookings");
+  return knex.schema
+    .alterTable("bookings", function (table) {
+      // Remove foreign keys first
+      table.dropForeign("cabinID", "fk_bookings_cabin");
+      table.dropForeign("guestID", "fk_bookings_guest");
+    })
+    .then(() => {
+      // Then drop the table
+      return knex.schema.dropTable("bookings");
+    });
 };
