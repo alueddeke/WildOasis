@@ -5,12 +5,14 @@
 exports.up = function (knex) {
   return knex.schema.createTable("cabins", function (table) {
     table.increments("id").primary();
+    table.timestamp("created_at").defaultTo(knex.fn.now());
+    table.string("name").notNullable();
     table.integer("maxCapacity").notNullable();
     table.integer("regularPrice").notNullable();
     table.integer("discount").notNullable();
     table.string("description").notNullable();
-    // this is where the image would go
-    table.timestamp("created_at").defaultTo(knex.fn.now());
+    table.string("image").notNullable();
+
     table.integer("cabinID").unsigned();
   });
 };
