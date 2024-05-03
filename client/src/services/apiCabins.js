@@ -22,3 +22,16 @@ export async function deleteCabin(id) {
     throw new Error("Failed to delete cabin");
   }
 }
+
+export async function createCabin(newCabin) {
+  try {
+    const response = await axios.post(
+      "http://DB_HOST:3000/api/cabins",
+      newCabin
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to create cabin");
+  }
+}
