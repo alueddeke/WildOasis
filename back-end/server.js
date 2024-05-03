@@ -12,7 +12,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/static", express.static(path.join(__dirname, "../client")));
-console.log(path.join(__dirname, "../client"));
 
 app.get("/api/cabins", (req, res) => {
   knex("cabins")
@@ -25,6 +24,7 @@ app.get("/api/cabins", (req, res) => {
       res.status(500).json({ error: "Database error occurred" });
     });
 });
+
 app.delete("/api/cabins/:id", (req, res) => {
   const { id } = req.params;
 
@@ -45,6 +45,28 @@ app.delete("/api/cabins/:id", (req, res) => {
       res.status(500).json({ error: "Database error occurred" });
     });
 });
+
+const DEFAULT_IMAGE_PATH = "data/cabins/cabin-001.jpg";
+app.post("/api/cabins", (req, res) => {
+  const newCabin = {
+    ...req.body,
+    image: req.body.image || DEFAULT_IMAGE_PATH,
+  };
+
+  knex("cabins")
+    .insert(newCabin)
+    .then(() => {
+      res.status(201).json({ message: "Cabin successfully created" });
+    })
+    .catch((e) => {
+      console.error("Error inserting new cabin:", e);
+      res.status(500).json({
+        error: "Database error occurred while creating new cabin",
+        details: e.message,
+      });
+    });
+});
+
 app.listen(PORT, () => {
   console.log(`server is running at http://localhost:${PORT}`);
 });
