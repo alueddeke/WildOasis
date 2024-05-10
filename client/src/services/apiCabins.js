@@ -29,9 +29,23 @@ export async function createCabin(newCabin) {
       "http://localhost:3000/api/cabins",
       newCabin
     );
+    console.log("Sending data:", newCabin); // Log the data being sent to the server
     return response.data;
   } catch (error) {
     console.error(error);
     throw new Error("Failed to create cabin");
+  }
+}
+
+export async function editCabin(id, cabinData) {
+  try {
+    const response = await axios.put(
+      `http://localhost:3000/api/cabins/${id}`,
+      cabinData
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to update cabin");
   }
 }
