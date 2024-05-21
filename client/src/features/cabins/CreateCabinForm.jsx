@@ -9,7 +9,7 @@ import Button from "../../ui/Button";
 import Textarea from "../../ui/Textarea";
 import { useCreateEditCabin } from "./useCreateEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onClose }) {
   const { id: editId, ...editValues } = cabinToEdit;
 
   const isEditSession = Boolean(editId);
@@ -18,7 +18,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
-  const { mutate, isSubmitting } = useCreateEditCabin(isEditSession, editId);
+  const { mutate, isSubmitting } = useCreateEditCabin(isEditSession, editId, {
+    onSuccess: () => {
+      onClose();
+    },
+  });
 
   function onSubmit(data) {
     console.log("Form data on submit:", data); // Check what data is being submitted
@@ -30,7 +34,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onClose ? "modal" : "regular"}
+    >
       <FormRow label="Cabin Name" error={errors?.name?.message}>
         <Input
           type="number"
@@ -96,7 +103,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       </FormRow> */}
 
       <FormRow>
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={() => onClose?.()}>
           Cancel
         </Button>
         <Button disabled={isSubmitting}>
