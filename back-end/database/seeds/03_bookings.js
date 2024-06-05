@@ -24,14 +24,21 @@ exports.seed = function (knex) {
           isPaid: true,
           observations: "I will arrive at 10pm",
         },
-        // {
-        //   guestID: 2,
-        //   cabinID: 2,
-        //   startDate: "2024-06-01",
-        //   endDate: "2024-06-05",
-        //   numNights: 4,
-        // },
-        // Add more booking entries as needed
+        {
+          guestID: 2,
+          cabinID: 2,
+          startDate: "2024-05-06",
+          endDate: "2024-05-08",
+          numNights: 2,
+          numGuests: 2,
+          cabinPrice: 300,
+          extrasPrice: 120,
+          totalPrice: 420,
+          status: "unconfirmed",
+          hasBreakfast: true,
+          isPaid: true,
+          observations: "I will arrive at 10pm",
+        },
       ]);
     });
 };
