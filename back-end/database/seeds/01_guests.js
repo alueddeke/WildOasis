@@ -16,6 +16,14 @@ exports.seed = function (knex) {
           nationality: "Canadian",
           country: "Canada",
         },
+        {
+          id: 2,
+          fullName: "Sarah Jones",
+          email: "sarah.jones@mail.com",
+          nationalID: "1234567890",
+          nationality: "American",
+          country: "USA",
+        },
       ]);
     });
 };
