@@ -10,9 +10,8 @@ exports.up = function (knex) {
     table.integer("maxCapacity").notNullable();
     table.integer("regularPrice").notNullable();
     table.integer("discount").notNullable();
-    table.string("description").notNullable();
+    table.text("description").notNullable(); // Change from string to text
     table.string("image").notNullable();
-
     table.integer("cabinID").unsigned();
   });
 };

@@ -1,5 +1,16 @@
+import axios from "axios";
 import { getToday } from "../utils/helpers";
-import supabase from "./supabase";
+
+export async function getBookings() {
+  try {
+    const response = await axios.get("http://localhost:3000/api/bookings");
+    return response.data;
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Bookings could not be loaded");
+  }
+}
 
 export async function getBooking(id) {
   const { data, error } = await supabase

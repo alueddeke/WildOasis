@@ -4,6 +4,7 @@
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 require("dotenv").config();
+const path = require("path");
 
 module.exports = {
   client: "mysql2",
@@ -21,4 +22,10 @@ module.exports = {
   //   password: process.env.DB_PASSWORD,
   //   charset: "utf8",
   // },
+  migrations: {
+    directory: path.join(__dirname, "database/migrations"), // Specify the correct path
+  },
+  seeds: {
+    directory: path.join(__dirname, "database/seeds"), // Specify the correct path
+  },
 };

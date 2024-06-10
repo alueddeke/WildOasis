@@ -9,7 +9,7 @@ exports.up = function (knex) {
     table.string("email").notNullable();
     table.string("nationalID").notNullable();
     table.string("nationality").notNullable();
-    table.string("country").notNullable();
+    table.string("countryFlag").notNullable();
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table.integer("guestID").unsigned();
   });
