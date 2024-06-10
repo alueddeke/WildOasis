@@ -19,7 +19,7 @@ export async function getBookings({ filter, sortBy, page }) {
     const response = await axios.get("http://localhost:3000/api/bookings", {
       params,
     });
-    console.log(response);
+
     return response.data;
   } catch (error) {
     console.error(error);
