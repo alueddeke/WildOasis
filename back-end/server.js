@@ -13,6 +13,21 @@ app.use(bodyParser.json());
 
 app.use("/static", express.static(path.join(__dirname, "../client")));
 
+// Endpoint to roll back migrations, run migrations, and seed the database
+app.post("/api/reset-database", async (req, res) => {
+  try {
+    await knex.migrate.rollback(null, true);
+    await knex.migrate.latest();
+    await knex.seed.run();
+    res.status(200).json({ message: "Database reset successfully" });
+  } catch (error) {
+    console.error("Error resetting database:", error);
+    res.status(500).json({ error: "Error resetting database" });
+  }
+});
+
+// CABINS
+
 app.get("/api/cabins", (req, res) => {
   knex("cabins")
     .select("*")
@@ -102,6 +117,8 @@ app.put("/api/cabins/:id", (req, res) => {
     });
 });
 
+// SETTINGS
+
 app.get("/api/settings", async (req, res) => {
   try {
     const settings = await knex("settings").first();
@@ -114,36 +131,11 @@ app.get("/api/settings", async (req, res) => {
   }
 });
 
-// app.put("/api/settings", async (req, res) => {
-//   const { setting_name, value } = req.body;
-
-//   try {
-//     const updated = await knex("settings")
-//       .update({ value })
-//       .where({ setting_name });
-
-//     if (updated) {
-//       const updatedSettings = await knex("settings")
-//         .where({ setting_name })
-//         .first();
-//       res.status(200).json(updatedSettings);
-//     } else {
-//       res.status(404).json({ error: "Setting not found" });
-//     }
-//   } catch (error) {
-//     console.error("Error updating settings:", error);
-//     res
-//       .status(500)
-//       .json({ error: "Database error occurred while updating settings" });
-//   }
-// });
-
 app.put("/api/settings", async (req, res) => {
   const updates = req.body;
   console.log("Updating settings with:", req.body);
 
   try {
-    // Assuming your settings table has more than one setting and they are not stored as rows but as columns
     const updated = await knex("settings").update(updates).where("id", 1); // Assuming there's only one settings row
 
     if (updated) {
@@ -158,6 +150,49 @@ app.put("/api/settings", async (req, res) => {
       error: "Database error occurred while updating settings",
       details: error.message,
     });
+  }
+});
+
+// BOOKINGS
+app.get("/api/bookings", async (req, res) => {
+  try {
+    const bookings = await knex("bookings")
+      .select(
+        "bookings.*",
+        "cabins.name as cabinName",
+        "guests.fullName",
+        "guests.email"
+      )
+      .join("cabins", "bookings.cabinID", "cabins.id")
+      .join("guests", "bookings.guestID", "guests.id");
+    res.json(bookings);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error occurred" });
+  }
+});
+
+app.delete("/api/bookings", async (req, res) => {
+  try {
+    // Delete all bookings from the database
+    await knex("bookings").del();
+    res.status(200).json({ message: "Bookings successfully deleted" });
+  } catch (error) {
+    console.error("Error deleting bookings:", error);
+    res.status(500).json({ error: "Database error occurred" });
+  }
+});
+
+app.post("/api/bookings", async (req, res) => {
+  const newBookings = req.body;
+
+  try {
+    // Insert new bookings into the database
+    await knex("bookings").insert(newBookings);
+    res.status(201).json({ message: "Bookings successfully created" });
+  } catch (error) {
+    console.error("Error creating bookings:", error);
+    res.status(500).json({ error: "Database error occurred" });
   }
 });
 
