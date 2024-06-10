@@ -7,6 +7,7 @@ const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
+const PAGE_SIZE = 10;
 app.use(cors());
 
 app.use(bodyParser.json());
@@ -154,9 +155,12 @@ app.put("/api/settings", async (req, res) => {
 });
 
 // BOOKINGS
+
 app.get("/api/bookings", async (req, res) => {
+  const { status, sortBy, sortDirection, page } = req.query;
+
   try {
-    const bookings = await knex("bookings")
+    let query = knex("bookings")
       .select(
         "bookings.*",
         "cabins.name as cabinName",
@@ -165,7 +169,24 @@ app.get("/api/bookings", async (req, res) => {
       )
       .join("cabins", "bookings.cabinID", "cabins.id")
       .join("guests", "bookings.guestID", "guests.id");
-    res.json(bookings);
+
+    if (status) {
+      query = query.where("bookings.status", status);
+    }
+
+    if (sortBy && sortDirection) {
+      query = query.orderBy(sortBy, sortDirection);
+    }
+
+    if (page) {
+      const offset = (page - 1) * PAGE_SIZE;
+      query = query.limit(PAGE_SIZE).offset(offset);
+    }
+
+    const bookings = await query;
+    const totalCount = await knex("bookings").count("id as count").first();
+
+    res.json({ bookings, totalCount: totalCount.count });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Database error occurred" });

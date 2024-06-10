@@ -1,17 +1,31 @@
 import axios from "axios";
 import { getToday } from "../utils/helpers";
+import { PAGE_SIZE } from "../utils/constants";
 
-export async function getBookings() {
+export async function getBookings({ filter, sortBy, page }) {
   try {
-    const response = await axios.get("http://localhost:3000/api/bookings");
-    return response.data;
+    const params = {};
+    if (filter) {
+      params.status = filter.value;
+    }
+    if (sortBy) {
+      params.sortBy = sortBy.field;
+      params.sortDirection = sortBy.direction;
+    }
+    if (page) {
+      params.page = page;
+    }
+
+    const response = await axios.get("http://localhost:3000/api/bookings", {
+      params,
+    });
     console.log(response);
+    return response.data;
   } catch (error) {
     console.error(error);
     throw new Error("Bookings could not be loaded");
   }
 }
-
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
