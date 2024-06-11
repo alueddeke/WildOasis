@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import AvatarImage from "../../../data/img/avatar.svg";
 
 const StyledUserAvatar = styled.div`
   display: flex;
@@ -19,3 +20,14 @@ const Avatar = styled.img`
   border-radius: 50%;
   outline: 2px solid var(--color-grey-100);
 `;
+
+function UserAvatar() {
+  return (
+    <StyledUserAvatar>
+      <Avatar src={AvatarImage} />
+      <span>Antoni Lueddeke</span>
+    </StyledUserAvatar>
+  );
+}
+
+export default UserAvatar;
