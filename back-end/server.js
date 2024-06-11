@@ -193,6 +193,63 @@ app.get("/api/bookings", async (req, res) => {
   }
 });
 
+app.get("/api/bookings/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const booking = await knex("bookings")
+      .select(
+        "bookings.*",
+        "cabins.name as cabinName",
+        "guests.fullName",
+        "guests.email"
+      )
+      .join("cabins", "bookings.cabinID", "cabins.id")
+      .join("guests", "bookings.guestID", "guests.id")
+      .where("bookings.id", id)
+      .first();
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    res.json(booking);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error occurred" });
+  }
+});
+app.put("/api/bookings/:id", async (req, res) => {
+  const { id } = req.params;
+  const updatedBooking = req.body;
+
+  try {
+    const updateResult = await knex("bookings")
+      .where({ id })
+      .update(updatedBooking);
+
+    if (updateResult === 0) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    const booking = await knex("bookings")
+      .select(
+        "bookings.*",
+        "cabins.name as cabinName",
+        "guests.fullName",
+        "guests.email"
+      )
+      .join("cabins", "bookings.cabinID", "cabins.id")
+      .join("guests", "bookings.guestID", "guests.id")
+      .where("bookings.id", id)
+      .first();
+
+    res.json(booking);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error occurred" });
+  }
+});
 app.delete("/api/bookings", async (req, res) => {
   try {
     // Delete all bookings from the database

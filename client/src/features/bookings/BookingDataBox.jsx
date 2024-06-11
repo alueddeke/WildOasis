@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { format, isToday } from "date-fns";
+import moment from "moment";
 import {
   HiOutlineChatBubbleBottomCenterText,
   HiOutlineCheckCircle,
@@ -10,7 +10,7 @@ import {
 import DataItem from "../../ui/DataItem";
 import { Flag } from "../../ui/Flag";
 
-import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
+import { formatCurrency } from "../../utils/helpers";
 
 const StyledBookingDataBox = styled.section`
   /* Box */
@@ -115,10 +115,17 @@ function BookingDataBox({ booking }) {
     hasBreakfast,
     observations,
     isPaid,
-    guests: { fullName: guestName, email, country, countryFlag, nationalID },
-    cabins: { name: cabinName },
+    fullName: guestName,
+    email,
+    country,
+    countryFlag,
+    nationalID,
+    cabinName,
   } = booking;
 
+  const formatDate = (date) => moment(date).format("ddd, MMM DD YYYY");
+
+  console.log(booking);
   return (
     <StyledBookingDataBox>
       <Header>
@@ -130,11 +137,11 @@ function BookingDataBox({ booking }) {
         </div>
 
         <p>
-          {format(new Date(startDate), "EEE, MMM dd yyyy")} (
-          {isToday(new Date(startDate))
+          {formatDate(startDate)} (
+          {moment(startDate).isSame(new Date(), "day")
             ? "Today"
-            : formatDistanceFromNow(startDate)}
-          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
+            : moment(startDate).fromNow()}
+          ) &mdash; {formatDate(endDate)}
         </p>
       </Header>
 
@@ -178,7 +185,7 @@ function BookingDataBox({ booking }) {
       </Section>
 
       <Footer>
-        <p>Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}</p>
+        <p>Booked {formatDate(created_at)}</p>
       </Footer>
     </StyledBookingDataBox>
   );
