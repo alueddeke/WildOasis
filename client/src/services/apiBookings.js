@@ -27,18 +27,15 @@ export async function getBookings({ filter, sortBy, page }) {
   }
 }
 export async function getBooking(id) {
-  const { data, error } = await supabase
-    .from("bookings")
-    .select("*, cabins(*), guests(*)")
-    .eq("id", id)
-    .single();
-
-  if (error) {
+  try {
+    const response = await axios.get(
+      `http://DB_HOST:3000/api/bookings/${id}`
+    );
+    return response.data;
+  } catch (error) {
     console.error(error);
     throw new Error("Booking not found");
   }
-
-  return data;
 }
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
@@ -96,18 +93,16 @@ export async function getStaysTodayActivity() {
 }
 
 export async function updateBooking(id, obj) {
-  const { data, error } = await supabase
-    .from("bookings")
-    .update(obj)
-    .eq("id", id)
-    .select()
-    .single();
-
-  if (error) {
+  try {
+    const response = await axios.put(
+      `http://DB_HOST:3000/api/bookings/${id}`,
+      obj
+    );
+    return response.data;
+  } catch (error) {
     console.error(error);
     throw new Error("Booking could not be updated");
   }
-  return data;
 }
 
 export async function deleteBooking(id) {
