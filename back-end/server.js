@@ -250,6 +250,24 @@ app.put("/api/bookings/:id", async (req, res) => {
     res.status(500).json({ error: "Database error occurred" });
   }
 });
+
+app.delete("/api/bookings/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleteResult = await knex("bookings").where({ id }).del();
+
+    if (deleteResult === 0) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    res.status(200).json({ message: `Booking ${id} successfully deleted` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error occurred" });
+  }
+});
+
 app.delete("/api/bookings", async (req, res) => {
   try {
     // Delete all bookings from the database
