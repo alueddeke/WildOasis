@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-:DB_USER {
+:root {
 
  &, &.light-mode{
 

@@ -19,7 +19,7 @@ export async function getBookings({ filter, sortBy, page }) {
       params.page = page;
     }
 
-    const response = await axios.get("http://DB_HOST:3000/api/bookings", {
+    const response = await axios.get("http://localhost:3000/api/bookings", {
       params,
     });
 
@@ -33,7 +33,7 @@ export async function getBookings({ filter, sortBy, page }) {
 export async function getBooking(id) {
   try {
     const response = await axios.get(
-      `http://DB_HOST:3000/api/bookings/${id}`
+      `http://localhost:3000/api/bookings/${id}`
     );
     return response.data;
   } catch (error) {
@@ -44,7 +44,7 @@ export async function getBooking(id) {
 
 export async function getBookingsAfterDate(date) {
   try {
-    const response = await axios.get("http://DB_HOST:3000/api/bookings", {
+    const response = await axios.get("http://localhost:3000/api/bookings", {
       params: { afterDate: formatDate(date) },
     });
     return response.data;
@@ -58,7 +58,7 @@ export async function getStaysAfterDate(date) {
   try {
     const formattedDate = formatDate(date);
 
-    const response = await axios.get("http://DB_HOST:3000/api/bookings", {
+    const response = await axios.get("http://localhost:3000/api/bookings", {
       params: { startDateAfter: formattedDate },
     });
     return response.data;
@@ -70,7 +70,7 @@ export async function getStaysAfterDate(date) {
 
 export async function getStaysTodayActivity() {
   try {
-    const response = await axios.get("http://DB_HOST:3000/api/bookings", {
+    const response = await axios.get("http://localhost:3000/api/bookings", {
       params: { todayActivity: true },
     });
     return response.data;
@@ -83,7 +83,7 @@ export async function getStaysTodayActivity() {
 export async function updateBooking(id, obj) {
   try {
     const response = await axios.put(
-      `http://DB_HOST:3000/api/bookings/${id}`,
+      `http://localhost:3000/api/bookings/${id}`,
       obj
     );
     return response.data;
@@ -96,7 +96,7 @@ export async function updateBooking(id, obj) {
 export async function deleteBooking(id) {
   try {
     const response = await axios.delete(
-      `http://DB_HOST:3000/api/bookings/${id}`
+      `http://localhost:3000/api/bookings/${id}`
     );
     return response.data;
   } catch (error) {

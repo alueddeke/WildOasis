@@ -9,10 +9,10 @@ const path = require("path");
 module.exports = {
   client: "mysql2",
   connection: {
-    host: "DB_HOST",
-    database: "DB_NAME",
-    user: "DB_USER",
-    password: "DB_USERDB_USER",
+    host: "localhost",
+    database: "the-wild-oasis",
+    user: "root",
+    password: "rootroot",
     charset: "utf8",
   },
   // connection: {

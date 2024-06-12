@@ -7,7 +7,7 @@ function Uploader() {
   const resetDatabase = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("http://DB_HOST:3000/api/reset-database", {
+      const response = await fetch("http://localhost:3000/api/reset-database", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

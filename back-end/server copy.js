@@ -293,5 +293,5 @@ app.post("/api/bookings", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`server is running at http://DB_HOST:${PORT}`);
+  console.log(`server is running at http://localhost:${PORT}`);
 });

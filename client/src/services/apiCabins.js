@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function getCabins() {
   try {
-    const response = await axios.get("http://DB_HOST:3000/api/cabins");
+    const response = await axios.get("http://localhost:3000/api/cabins");
     return response.data;
   } catch (error) {
     console.error(error);
@@ -13,7 +13,7 @@ export async function getCabins() {
 export async function deleteCabin(id) {
   try {
     const response = await axios.delete(
-      `http://DB_HOST:3000/api/cabins/${id}`
+      `http://localhost:3000/api/cabins/${id}`
     );
 
     return response.data;
@@ -26,7 +26,7 @@ export async function deleteCabin(id) {
 export async function createCabin(newCabin) {
   try {
     const response = await axios.post(
-      "http://DB_HOST:3000/api/cabins",
+      "http://localhost:3000/api/cabins",
       newCabin
     );
     console.log("Sending data:", newCabin); // Log the data being sent to the server
@@ -40,7 +40,7 @@ export async function createCabin(newCabin) {
 export async function editCabin(id, cabinData) {
   try {
     const response = await axios.put(
-      `http://DB_HOST:3000/api/cabins/${id}`,
+      `http://localhost:3000/api/cabins/${id}`,
       cabinData
     );
     return response.data;

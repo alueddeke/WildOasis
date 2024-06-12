@@ -14,7 +14,7 @@ function ConfirmResetDatabase({ onClose }) {
   const resetDatabase = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("http://DB_HOST:3000/api/reset-database", {
+      const response = await fetch("http://localhost:3000/api/reset-database", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +24,7 @@ function ConfirmResetDatabase({ onClose }) {
       if (response.ok) {
         const data = await response.json();
         alert(data.message);
-        navigate("/"); // Navigate to the DB_USER page
+        navigate("/"); // Navigate to the root page
       } else {
         alert("Failed to reset database");
       }
