@@ -4,7 +4,6 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const knex = require("knex")(require("./knexfile"));
 const path = require("path");
-const moment = require("moment");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -12,12 +11,6 @@ const PAGE_SIZE = 10;
 app.use(cors());
 
 app.use(bodyParser.json());
-
-// app.use((req, res, next) => {
-//   console.log("Incoming request:", req.method, req.url);
-//   console.log("Query params:", req.query);
-//   next();
-// });
 
 app.use("/static", express.static(path.join(__dirname, "../client")));
 
@@ -164,17 +157,7 @@ app.put("/api/settings", async (req, res) => {
 // BOOKINGS
 
 app.get("/api/bookings", async (req, res) => {
-  const {
-    status,
-    sortBy,
-    sortDirection,
-    page,
-    afterDate,
-    startDateAfter,
-    todayActivity,
-  } = req.query;
-
-  console.log("Received startDateAfter:", startDateAfter); // Log received startDateAfter
+  const { status, sortBy, sortDirection, page } = req.query;
 
   try {
     let query = knex("bookings")
@@ -182,43 +165,13 @@ app.get("/api/bookings", async (req, res) => {
         "bookings.*",
         "cabins.name as cabinName",
         "guests.fullName",
-        "guests.email",
-        "bookings.status" // Ensure status is included
+        "guests.email"
       )
       .join("cabins", "bookings.cabinID", "cabins.id")
       .join("guests", "bookings.guestID", "guests.id");
 
     if (status) {
       query = query.where("bookings.status", status);
-    }
-
-    if (afterDate) {
-      query = query.where(
-        "bookings.created_at",
-        ">=",
-        moment(afterDate).format("YYYY-MM-DD HH:mm:ss")
-      );
-    }
-
-    if (startDateAfter) {
-      query = query.where(
-        "bookings.startDate",
-        ">=",
-        moment(startDateAfter, "ddd, MMM DD YYYY").format("YYYY-MM-DD")
-      );
-    }
-
-    if (todayActivity) {
-      const today = moment().format("YYYY-MM-DD");
-      query = query.where((builder) =>
-        builder
-          .where((builder) =>
-            builder.where("status", "unconfirmed").andWhere("startDate", today)
-          )
-          .orWhere((builder) =>
-            builder.where("status", "checked-in").andWhere("endDate", today)
-          )
-      );
     }
 
     if (sortBy && sortDirection) {
@@ -266,7 +219,6 @@ app.get("/api/bookings/:id", async (req, res) => {
     res.status(500).json({ error: "Database error occurred" });
   }
 });
-
 app.put("/api/bookings/:id", async (req, res) => {
   const { id } = req.params;
   const updatedBooking = req.body;

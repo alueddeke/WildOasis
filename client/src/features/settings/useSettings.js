@@ -12,7 +12,7 @@ export function useSettings() {
     staleTime: Infinity, // Adjust based on how frequently you expect changes
   });
 
-  console.log("Queried settings:", settings);
+  // console.log("Queried settings:", settings);
 
   return { isLoading, error, settings };
 }
