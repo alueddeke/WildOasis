@@ -1,9 +1,6 @@
 import axios from "axios";
-import moment from "moment";
+import { getToday } from "../utils/helpers";
 import { PAGE_SIZE } from "../utils/constants";
-
-// Helper function to format dates
-const formatDate = (date) => moment(date).format("ddd, MMM DD YYYY");
 
 export async function getBookings({ filter, sortBy, page }) {
   try {
@@ -29,7 +26,6 @@ export async function getBookings({ filter, sortBy, page }) {
     throw new Error("Bookings could not be loaded");
   }
 }
-
 export async function getBooking(id) {
   try {
     const response = await axios.get(
@@ -42,45 +38,58 @@ export async function getBooking(id) {
   }
 }
 
+// Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 export async function getBookingsAfterDate(date) {
-  try {
-    const response = await axios.get("http://localhost:3000/api/bookings", {
-      params: { afterDate: formatDate(date) },
-    });
-    return response.data;
-  } catch (error) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("created_at, totalPrice, extrasPrice")
+    .gte("created_at", date)
+    .lte("created_at", getToday({ end: true }));
+
+  if (error) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
+
+  return data;
 }
 
+// Returns all STAYS that are were created after the given date
 export async function getStaysAfterDate(date) {
-  try {
-    // console.log("Fetching stays after date:", date); // Log the raw date
-    const formattedDate = formatDate(date);
-    // console.log("Formatted date:", formattedDate); // Log the formatted date
+  const { data, error } = await supabase
+    .from("bookings")
+    // .select('*')
+    .select("*, guests(fullName)")
+    .gte("startDate", date)
+    .lte("startDate", getToday());
 
-    const response = await axios.get("http://localhost:3000/api/bookings", {
-      params: { startDateAfter: formattedDate },
-    });
-
-    // console.log("Fetched stays data:", response.data); // Log response data
-    return response.data;
-  } catch (error) {
+  if (error) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
+
+  return data;
 }
+
+// Activity means that there is a check in or a check out today
 export async function getStaysTodayActivity() {
-  try {
-    const response = await axios.get("http://localhost:3000/api/bookings", {
-      params: { todayActivity: true },
-    });
-    return response.data;
-  } catch (error) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*, guests(fullName, nationality, countryFlag)")
+    .or(
+      `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
+    )
+    .order("created_at");
+
+  // Equivalent to this. But by querying this, we only download the data we actually need, otherwise we would need ALL bookings ever created
+  // (stay.status === 'unconfirmed' && isToday(new Date(stay.startDate))) ||
+  // (stay.status === 'checked-in' && isToday(new Date(stay.endDate)))
+
+  if (error) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
+  return data;
 }
 
 export async function updateBooking(id, obj) {
