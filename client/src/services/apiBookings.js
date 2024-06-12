@@ -56,21 +56,18 @@ export async function getBookingsAfterDate(date) {
 
 export async function getStaysAfterDate(date) {
   try {
-    // console.log("Fetching stays after date:", date); // Log the raw date
     const formattedDate = formatDate(date);
-    // console.log("Formatted date:", formattedDate); // Log the formatted date
 
     const response = await axios.get("http://DB_HOST:3000/api/bookings", {
       params: { startDateAfter: formattedDate },
     });
-
-    // console.log("Fetched stays data:", response.data); // Log response data
     return response.data;
   } catch (error) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
 }
+
 export async function getStaysTodayActivity() {
   try {
     const response = await axios.get("http://DB_HOST:3000/api/bookings", {
