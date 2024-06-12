@@ -41,7 +41,7 @@ const NoActivity = styled.p`
 
 function TodayActivity() {
   const { activities, isLoading } = useTodayActivity();
-  const activityList = activities.bookings;
+  const activityList = activities?.bookings || [];
 
   console.log(activityList);
   return (
