@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const apiUrl = process.env.REACT_APP_API_URL; // Get the base API URL from the environment variable
+
 export async function getCabins() {
   try {
-    const response = await axios.get("http://localhost:3000/api/cabins");
+    const response = await axios.get(`${apiUrl}/api/cabins`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -12,10 +14,7 @@ export async function getCabins() {
 
 export async function deleteCabin(id) {
   try {
-    const response = await axios.delete(
-      `http://localhost:3000/api/cabins/${id}`
-    );
-
+    const response = await axios.delete(`${apiUrl}/api/cabins/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -25,10 +24,7 @@ export async function deleteCabin(id) {
 
 export async function createCabin(newCabin) {
   try {
-    const response = await axios.post(
-      "http://localhost:3000/api/cabins",
-      newCabin
-    );
+    const response = await axios.post(`${apiUrl}/api/cabins`, newCabin);
     console.log("Sending data:", newCabin);
     return response.data;
   } catch (error) {
@@ -39,10 +35,7 @@ export async function createCabin(newCabin) {
 
 export async function editCabin(id, cabinData) {
   try {
-    const response = await axios.put(
-      `http://localhost:3000/api/cabins/${id}`,
-      cabinData
-    );
+    const response = await axios.put(`${apiUrl}/api/cabins/${id}`, cabinData);
     return response.data;
   } catch (error) {
     console.error(error);

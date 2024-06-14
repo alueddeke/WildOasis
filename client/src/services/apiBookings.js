@@ -2,6 +2,8 @@ import axios from "axios";
 import moment from "moment";
 import { PAGE_SIZE } from "../utils/constants";
 
+const apiUrl = process.env.REACT_APP_API_URL; // Get the base API URL from the environment variable
+
 const formatDate = (date) => moment(date).format("ddd, MMM DD YYYY");
 
 export async function getBookings({ filter, sortBy, page }) {
@@ -18,7 +20,7 @@ export async function getBookings({ filter, sortBy, page }) {
       params.page = page;
     }
 
-    const response = await axios.get("http://localhost:3000/api/bookings", {
+    const response = await axios.get(`${apiUrl}/api/bookings`, {
       params,
     });
 
@@ -31,9 +33,7 @@ export async function getBookings({ filter, sortBy, page }) {
 
 export async function getBooking(id) {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/api/bookings/${id}`
-    );
+    const response = await axios.get(`${apiUrl}/api/bookings/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -43,7 +43,7 @@ export async function getBooking(id) {
 
 export async function getBookingsAfterDate(date) {
   try {
-    const response = await axios.get("http://localhost:3000/api/bookings", {
+    const response = await axios.get(`${apiUrl}/api/bookings`, {
       params: { afterDate: formatDate(date) },
     });
     return response.data;
@@ -57,7 +57,7 @@ export async function getStaysAfterDate(date) {
   try {
     const formattedDate = formatDate(date);
 
-    const response = await axios.get("http://localhost:3000/api/bookings", {
+    const response = await axios.get(`${apiUrl}/api/bookings`, {
       params: { startDateAfter: formattedDate },
     });
     return response.data;
@@ -69,7 +69,7 @@ export async function getStaysAfterDate(date) {
 
 export async function getStaysTodayActivity() {
   try {
-    const response = await axios.get("http://localhost:3000/api/bookings", {
+    const response = await axios.get(`${apiUrl}/api/bookings`, {
       params: { todayActivity: true },
     });
     return response.data;
@@ -81,10 +81,7 @@ export async function getStaysTodayActivity() {
 
 export async function updateBooking(id, obj) {
   try {
-    const response = await axios.put(
-      `http://localhost:3000/api/bookings/${id}`,
-      obj
-    );
+    const response = await axios.put(`${apiUrl}/api/bookings/${id}`, obj);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -94,9 +91,7 @@ export async function updateBooking(id, obj) {
 
 export async function deleteBooking(id) {
   try {
-    const response = await axios.delete(
-      `http://localhost:3000/api/bookings/${id}`
-    );
+    const response = await axios.delete(`${apiUrl}/api/bookings/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);

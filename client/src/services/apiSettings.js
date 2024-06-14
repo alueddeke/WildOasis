@@ -1,9 +1,10 @@
 import axios from "axios";
 
+const apiUrl = process.env.REACT_APP_API_URL; // Get the base API URL from the environment variable
+
 export async function getSettings() {
   try {
-    const response = await axios.get("http://localhost:3000/api/settings");
-
+    const response = await axios.get(`${apiUrl}/api/settings`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -13,10 +14,7 @@ export async function getSettings() {
 
 export async function updateSetting(newSetting) {
   try {
-    const response = await axios.put(
-      "http://localhost:3000/api/settings",
-      newSetting
-    );
+    const response = await axios.put(`${apiUrl}/api/settings`, newSetting);
     return response.data;
   } catch (error) {
     console.error(error);

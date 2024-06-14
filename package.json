@@ -8,5 +8,8 @@
     "postinstall": "npm install --prefix backend && npm install --prefix client"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }

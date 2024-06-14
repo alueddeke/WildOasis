@@ -2,6 +2,8 @@ import axios from "axios";
 import { getToday } from "../utils/helpers";
 import { PAGE_SIZE } from "../utils/constants";
 
+const apiUrl = process.env.REACT_APP_API_URL; // Get the base API URL from the environment variable
+
 export async function getBookings({ filter, sortBy, page }) {
   try {
     const params = {};
@@ -16,7 +18,7 @@ export async function getBookings({ filter, sortBy, page }) {
       params.page = page;
     }
 
-    const response = await axios.get("http://localhost:3000/api/bookings", {
+    const response = await axios.get(`${apiUrl}/api/bookings`, {
       params,
     });
 
@@ -26,11 +28,10 @@ export async function getBookings({ filter, sortBy, page }) {
     throw new Error("Bookings could not be loaded");
   }
 }
+
 export async function getBooking(id) {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/api/bookings/${id}`
-    );
+    const response = await axios.get(`${apiUrl}/api/bookings/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -56,7 +57,6 @@ export async function getBookingsAfterDate(date) {
 export async function getStaysAfterDate(date) {
   const { data, error } = await supabase
     .from("bookings")
-    // .select('*')
     .select("*, guests(fullName)")
     .gte("startDate", date)
     .lte("startDate", getToday());
@@ -87,10 +87,7 @@ export async function getStaysTodayActivity() {
 
 export async function updateBooking(id, obj) {
   try {
-    const response = await axios.put(
-      `http://localhost:3000/api/bookings/${id}`,
-      obj
-    );
+    const response = await axios.put(`${apiUrl}/api/bookings/${id}`, obj);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -100,9 +97,7 @@ export async function updateBooking(id, obj) {
 
 export async function deleteBooking(id) {
   try {
-    const response = await axios.delete(
-      `http://localhost:3000/api/bookings/${id}`
-    );
+    const response = await axios.delete(`${apiUrl}/api/bookings/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);
