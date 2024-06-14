@@ -1,35 +1,3 @@
-// /**
-//  * @param { import("knex").Knex } knex
-//  * @returns { Promise<void> }
-//  */
-
-// exports.seed = function (knex) {
-//   return knex("cabins")
-//     .del()
-//     .then(function () {
-//       return knex("cabins").insert([
-//         {
-//           id: 1,
-//           name: "001",
-//           maxCapacity: 6,
-//           regularPrice: 300,
-//           discount: 15,
-//           description: "Spacious cabin with mountain view",
-//           image: "data/cabins/cabin-001.jpg",
-//         },
-//         {
-//           id: 2,
-//           name: "002",
-//           maxCapacity: 6,
-//           regularPrice: 300,
-//           discount: 15,
-//           description: "Spacious cabin with mountain view",
-//           image: "data/cabins/cabin-001.jpg",
-//         },
-//       ]);
-//     });
-// };
-
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -38,11 +6,9 @@
 const imageUrl = "data/cabins/";
 
 exports.seed = function (knex) {
-  // Deletes ALL existing entries
   return knex("cabins")
     .del()
     .then(function () {
-      // Inserts seed entries
       return knex("cabins").insert([
         {
           name: "001",

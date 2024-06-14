@@ -3,11 +3,9 @@
  * @returns { Promise<void> }
  */
 exports.seed = function (knex) {
-  // Deletes all existing entries
   return knex("settings")
     .del()
     .then(function () {
-      // Inserts seed entries
       return knex("settings").insert([
         {
           id: 1,

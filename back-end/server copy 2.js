@@ -13,8 +13,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-// Serve static files from the client/dist directory
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use("/static", express.static(path.join(__dirname, "../client")));
 
 // Endpoint to roll back migrations, run migrations, and seed the database
 app.post("/api/reset-database", async (req, res) => {
@@ -30,6 +29,7 @@ app.post("/api/reset-database", async (req, res) => {
 });
 
 // CABINS
+
 app.get("/api/cabins", (req, res) => {
   knex("cabins")
     .select("*")
@@ -153,6 +153,7 @@ app.put("/api/settings", async (req, res) => {
 });
 
 // BOOKINGS
+
 app.get("/api/bookings", async (req, res) => {
   const {
     status,
@@ -330,11 +331,6 @@ app.post("/api/bookings", async (req, res) => {
   }
 });
 
-// Catch-all handler to serve the index.html file for all other routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
-});
-
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+  console.log(`server is running at http://localhost:${PORT}`);
 });

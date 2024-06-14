@@ -21,10 +21,8 @@ function subtractDates(endDate, startDate) {
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
-  // Deletes all existing entries
   await knex("bookings").del();
 
-  // Retrieve cabin data to use for price calculations
   const cabins = await knex("cabins").select("*");
 
   const bookings = [
