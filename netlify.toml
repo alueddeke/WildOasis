@@ -1,11 +1,13 @@
 [build]
-  publish = "client/dist"
-  command = "npm run build --prefix client"
+  base = "client" # Path to your client directory
+  publish = "dist" # Path to the built files inside the client directory
+  command = "npm run build"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[dev]
+  framework = "create-react-app"
+  targetPort = 3000
+  port = 8888
 
 [build.environment]
-  REACT_APP_API_URL = "https://your-heroku-app.herokuapp.com"
+  NODE_ENV = "production"
+  REACT_APP_API_URL = "https://the-wild-oasis-01455c6408ed.herokuapp.com"
