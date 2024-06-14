@@ -24,7 +24,7 @@ function ConfirmResetDatabase({ onClose }) {
       if (response.ok) {
         const data = await response.json();
         alert(data.message);
-        navigate("/"); // Navigate to the root page
+        navigate("/");
       } else {
         alert("Failed to reset database");
       }

@@ -16,12 +16,6 @@ import Booking from "./pages/Booking";
 import Checkin from "./pages/Checkin";
 import { DarkModeProvider } from "./context/DarkModeContext";
 
-// 👉 If you want to use React Query v5, there are only two small things to change in the project:
-
-// isLoading is now called isPending
-
-// The cacheTime option is now called gcTime
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

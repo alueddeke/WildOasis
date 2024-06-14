@@ -2,7 +2,6 @@ import axios from "axios";
 import moment from "moment";
 import { PAGE_SIZE } from "../utils/constants";
 
-// Helper function to format dates
 const formatDate = (date) => moment(date).format("ddd, MMM DD YYYY");
 
 export async function getBookings({ filter, sortBy, page }) {

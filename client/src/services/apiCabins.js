@@ -29,7 +29,7 @@ export async function createCabin(newCabin) {
       "http://localhost:3000/api/cabins",
       newCabin
     );
-    console.log("Sending data:", newCabin); // Log the data being sent to the server
+    console.log("Sending data:", newCabin);
     return response.data;
   } catch (error) {
     console.error(error);

@@ -3,7 +3,7 @@ import axios from "axios";
 export async function getSettings() {
   try {
     const response = await axios.get("http://localhost:3000/api/settings");
-    // console.log("settings", response.data);
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -13,7 +13,6 @@ export async function getSettings() {
 
 export async function updateSetting(newSetting) {
   try {
-    // console.log("Sending update:", newSetting); // Ensure this logs the correct structure
     const response = await axios.put(
       "http://localhost:3000/api/settings",
       newSetting
