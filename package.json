@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm run start --prefix backend",
     "build": "npm run build --prefix client",
-    "postinstall": "npm install --prefix backend && npm install --prefix client"
+    "heroku-postbuild": "npm install --prefix backend && npm install --prefix client && npm run build --prefix client"
   },
   "engines": {
     "node": ">=14.0.0"
