@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "A full-stack application to manage the bookings of a private AirBnB",
   "scripts": {
-    "start": "npm run start --prefix backend",
+    "start": "npm run start --prefix back-end",
     "build": "npm run build --prefix client",
-    "heroku-postbuild": "npm install --prefix backend && npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "npm install --prefix back-end && npm install --prefix client && npm run build --prefix client"
   },
   "engines": {
     "node": ">=14.0.0"
