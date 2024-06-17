@@ -1,12 +1,18 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+
 const bodyParser = require("body-parser");
 const knexConfig = require("./knexfile");
-const knex = require("knex")(knexConfig[process.env.NODE_ENV || "development"]);
-const path = require("path");
 const moment = require("moment");
 
+console.log("Environment Variables:");
+console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_NAME:", process.env.DB_NAME);
+console.log("DB_USER:", process.env.DB_USER);
+console.log("DB_PASS:", process.env.DB_PASS);
+const knex = require("knex")(knexConfig[process.env.NODE_ENV || "development"]);
 const PORT = process.env.PORT || 3000;
 const app = express();
 const PAGE_SIZE = 10;
