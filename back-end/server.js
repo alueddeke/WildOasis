@@ -330,6 +330,19 @@ app.post("/api/bookings", async (req, res) => {
   }
 });
 
+// Test Database Connection
+app.get("/api/test-db", async (req, res) => {
+  try {
+    await knex.raw("SELECT 1");
+    res.status(200).json({ message: "Database connection successful" });
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    res
+      .status(500)
+      .json({ error: "Database connection failed", details: error.message });
+  }
+});
+
 // Catch-all handler to serve the index.html file for all other routes
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
