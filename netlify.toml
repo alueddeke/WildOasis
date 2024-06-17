@@ -1,7 +1,7 @@
 [build]
-  base = "client" # Path to your client directory
-  publish = "dist" # Path to the built files inside the client directory
-  command = "npm run build"
+  base = "client"
+  publish = "dist"
+  command = "npm install && npm run build"
 
 [dev]
   framework = "create-react-app"
