@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const bodyParser = require("body-parser");
-const knex = require("knex")(require("./knexfile"));
+const knexConfig = require("./knexfile");
+const knex = require("knex")(knexConfig[process.env.NODE_ENV || "development"]);
 const path = require("path");
 const moment = require("moment");
 
