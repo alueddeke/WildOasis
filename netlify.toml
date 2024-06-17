@@ -1,7 +1,7 @@
 [build]
   base = "client"
   publish = "client/dist"
-  command = "npm install vite && vite build"
+  command = "npm install && ./node_modules/.bin/vite build"
 
 [dev]
   framework = "create-react-app"
@@ -10,4 +10,4 @@
 
 [build.environment]
   NODE_ENV = "production"
-  REACT_APP_API_URL = "https://the-wild-oasis-01455c6408ed.herokuapp.com"
+  REACT_APP_API_URL = "https://the-wild-oasis.herokuapp.com"
