@@ -1,19 +1,34 @@
-require("dotenv").config();
-const path = require("path");
-
 module.exports = {
-  client: "mysql2",
-  connection: {
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    charset: "utf8",
+  development: {
+    client: "pg",
+    connection: {
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+    },
+    migrations: {
+      tableName: "knex_migrations",
+      directory: "./migrations",
+    },
+    seeds: {
+      directory: "./seeds",
+    },
   },
-  migrations: {
-    directory: path.join(__dirname, "database/migrations"),
-  },
-  seeds: {
-    directory: path.join(__dirname, "database/seeds"),
+  production: {
+    client: "pg",
+    connection: {
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+    },
+    migrations: {
+      tableName: "knex_migrations",
+      directory: "./migrations",
+    },
+    seeds: {
+      directory: "./seeds",
+    },
   },
 };
