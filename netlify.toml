@@ -1,8 +1,7 @@
 [build]
   base = "client"
   publish = "client/dist"
-  command = "npm install vite && npm run build"
-
+  command = "npm install vite && vite build"
 
 [dev]
   framework = "create-react-app"
