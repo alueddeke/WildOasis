@@ -23,7 +23,7 @@ export async function getBookings({ filter, sortBy, page }) {
     const response = await axios.get(`${apiUrl}/api/bookings`, {
       params,
     });
-
+    console.log("Bookings response:", response.data);
     return response.data;
   } catch (error) {
     console.error(error);
