@@ -232,8 +232,10 @@ app.get("/api/bookings", async (req, res) => {
 
     res.json({ bookings, totalCount: totalCount.count });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Database error occurred" });
+    console.error("Database error:", error);
+    res
+      .status(500)
+      .json({ error: "Database error occurred", details: error.message });
   }
 });
 
