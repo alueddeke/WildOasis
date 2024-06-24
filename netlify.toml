@@ -1,0 +1,13 @@
+[build]
+  base = "client"
+  publish = "client/dist"
+  command = "npm install && npm run build"
+
+[dev]
+  framework = "create-react-app"
+  targetPort = 3000
+  port = 8888
+
+[build.environment]
+  NODE_ENV = "production"
+  REACT_APP_API_URL = "https://the-wild-oasis.herokuapp.com"
