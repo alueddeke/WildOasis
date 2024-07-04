@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToday } from "../utils/helpers";
 import { PAGE_SIZE } from "../utils/constants";
 
-const apiUrl = process.env.REACT_APP_API_URL; // Get the base API URL from the environment variable
+const apiUrl = import.meta.env.VITE_API_URL; // Get the base API URL from the environment variable
 
 export async function getBookings({ filter, sortBy, page }) {
   try {

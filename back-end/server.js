@@ -12,6 +12,7 @@ console.log("DB_HOST:", process.env.DB_HOST);
 console.log("DB_NAME:", process.env.DB_NAME);
 console.log("DB_USER:", process.env.DB_USER);
 console.log("DB_PASS:", process.env.DB_PASS);
+
 const knex = require("knex")(knexConfig[process.env.NODE_ENV || "development"]);
 const PORT = process.env.PORT || 3000;
 const app = express();

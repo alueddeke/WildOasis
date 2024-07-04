@@ -2,7 +2,10 @@ import axios from "axios";
 import moment from "moment";
 import { PAGE_SIZE } from "../utils/constants";
 
-const apiUrl = process.env.REACT_APP_API_URL; // Get the base API URL from the environment variable
+//const apiUrl = "http://localhost:9090"; // Get the base API URL from the environment variable
+
+const apiUrl = import.meta.env.VITE_API_URL; // Get the base API URL from the environment variable
+console.log("vite url", apiUrl);
 
 const formatDate = (date) => moment(date).format("ddd, MMM DD YYYY");
 
@@ -23,7 +26,8 @@ export async function getBookings({ filter, sortBy, page }) {
     const response = await axios.get(`${apiUrl}/api/bookings`, {
       params,
     });
-    console.log("Bookings response:", response.data);
+    console.log("Bookings response:", response);
+    console.log("url", apiUrl);
     return response.data;
   } catch (error) {
     console.error(error);

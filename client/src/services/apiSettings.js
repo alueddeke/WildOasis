@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const apiUrl = process.env.REACT_APP_API_URL; // Get the base API URL from the environment variable
+// const apiUrl = "http://localhost:9090"; // Get the base API URL from the environment variable
+
+const apiUrl = import.meta.env.VITE_API_URL; // Get the base API URL from the environment variable
 
 export async function getSettings() {
   try {

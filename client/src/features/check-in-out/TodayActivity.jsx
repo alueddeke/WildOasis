@@ -43,7 +43,7 @@ function TodayActivity() {
   const { activities, isLoading } = useTodayActivity();
   const activityList = activities?.bookings || [];
 
-  console.log(activityList);
+  console.log("activity list", activityList);
   return (
     <StyledToday>
       <Row type="horizontal">

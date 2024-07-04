@@ -4,8 +4,6 @@ import Row from "../ui/Row";
 import BookingTableOperations from "../features/bookings/BookingTableOperations";
 
 function Bookings() {
-  console.log("API URL:", process.env.REACT_APP_API_URL); // Add this line to verify
-
   return (
     <>
       <Row type="horizontal">

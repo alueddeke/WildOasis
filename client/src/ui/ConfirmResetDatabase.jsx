@@ -10,7 +10,8 @@ const ModalButton = styled(Button)`
 function ConfirmResetDatabase({ onClose }) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const apiUrl = process.env.REACT_APP_API_URL; // Get the base API URL from the environment variable
+
+  const apiUrl = import.meta.env.VITE_API_URL; // Get the base API URL from the environment variable
 
   const resetDatabase = async () => {
     try {

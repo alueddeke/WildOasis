@@ -60,7 +60,7 @@ function SalesChart({ bookings, numDays }) {
       extrasSales,
     };
   });
-  console.log(data);
+  console.log("sales", data);
 
   const colors = isDarkMode
     ? {

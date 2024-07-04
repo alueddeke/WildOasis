@@ -125,7 +125,7 @@ function BookingDataBox({ booking }) {
 
   const formatDate = (date) => moment(date).format("ddd, MMM DD YYYY");
 
-  console.log(booking);
+  console.log("data box", booking);
   return (
     <StyledBookingDataBox>
       <Header>
