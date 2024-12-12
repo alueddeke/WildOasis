@@ -10,4 +10,4 @@
 
 [build.environment]
   NODE_ENV = "production"
-  REACT_APP_API_URL = "https://the-wild-oasis.herokuapp.com"
+  REACT_APP_API_URL = "https://wildoasis.onrender.com"
