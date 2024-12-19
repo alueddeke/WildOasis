@@ -1,14 +1,14 @@
+import React, { useState } from "react";
 import styled from "styled-components";
-
 import { useRecentBookings } from "./useRecentBookings";
 import { useRecentStays } from "./useRecentStays";
 import { useCabins } from "../cabins/useCabins";
-
 import Stats from "./Stats";
 import Spinner from "../../ui/Spinner";
 import SalesChart from "./SalesChart";
 import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
+import InitializationLoader from "./InitializationLoader";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -16,7 +16,9 @@ const StyledDashboardLayout = styled.div`
   grid-template-rows: auto 34rem auto;
   gap: 2.4rem;
 `;
+
 function DashboardLayout() {
+  const [isInitialized, setIsInitialized] = useState(false);
   const { bookings, isLoading: isLoading1 } = useRecentBookings();
   const {
     stays,
@@ -25,6 +27,15 @@ function DashboardLayout() {
     numDays,
   } = useRecentStays();
   const { cabins, isLoading: isLoading3 } = useCabins();
+
+  // If not initialized yet, show the initialization loader
+  if (!isInitialized) {
+    return (
+      <InitializationLoader onInitialized={() => setIsInitialized(true)} />
+    );
+  }
+
+  // Once initialized, handle normal loading states
   if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
 
   return (
